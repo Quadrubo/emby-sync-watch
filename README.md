@@ -1,5 +1,6 @@
 # Emby Sync Watch
 A Chrome Extension / NodeJS Server for sync video watching on Emby.
+This is my first Chrome Extension so please be gentle on me. The code is far from good but it works :)
 
 # Setup Client (Extension)
 1) Download the newest Release of the Chrome Extension from the [releases](https://github.com/Quadrubo/emby-sync-watch/releases) tab.
