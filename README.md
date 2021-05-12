@@ -17,6 +17,12 @@ A Chrome Extension / NodeJS Server for sync video watching on Emby.
 5) Enter "node .\index.js".
 6) The Server has now started.
 
+# Usage
+
+1) Open a the Emby Webpage and start the Video you want to watch.
+2) Connect to the Server, if everything is setup right you should see a popup saying you're connected.
+3) Everyone else who joins in from now on has control over your video and vice versa :)
+
 # Help
 ### What should I enter on the Options page?
 * Default Server
