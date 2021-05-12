@@ -64,7 +64,7 @@ document.getElementById("options").addEventListener('click', function(e){
 });
 
 document.getElementById("help").addEventListener('click', function(e){
-    chrome.tabs.create({url: ""}, function (tab) {
-        console.log("options page opened");
+    chrome.tabs.create({url: "https://github.com/Quadrubo/emby-sync-watch#readme"}, function (tab) {
+        console.log("Github Readme page opened");
     });
 });
