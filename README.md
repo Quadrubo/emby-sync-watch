@@ -11,7 +11,7 @@ This is my first Chrome Extension so please be gentle on me. The code is far fro
 6) The Extension now shows up in the top right corner of the screen :)
 
 # Setup Server
-1) Download the newest Release of the [Server](https://github.com/Quadrubo/emby-sync-watch/releases/tag/server-v1.1) from the releases tab.
+1) Download the newest Release of the [Server](https://github.com/Quadrubo/emby-sync-watch/releases/tag/server-v1.2) from the releases tab.
 2) Extract the Zip file to a Folder of your choice.
 3) Go to https://nodejs.org/en/download/ and install nodejs on your computer.
 4) Go to the Folder you extracted in step 2 and open a terminal there.
