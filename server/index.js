@@ -1,31 +1,47 @@
-const WebSocket = require("ws");
+const WebSocketServerPort = 8082;
+const WebSocketServer = require("websocket").server;
+const http = require('http');
 
-const wss = new WebSocket.Server({ port: 8082 });
+const server = http.createServer();
+server.listen(WebSocketServerPort);
+const wss = new WebSocketServer({
+    httpServer: server 
+});
+
 var CLIENTS = [];
 var id_counter = 0;
 
 // wss is the Server
 // ws is a single connection
 
-wss.on("connection", function(ws) {
+wss.on("request", function(request) {
+    const ws = request.accept(null, request.origin);
+
     CLIENTS.push([ws, id_counter]);
 
     console.log("New client connected!");
 
     //SEND ID to CLient
-    //ws.send("id|id|" + CLIENTS.indexOf(ws));
-    ws.send("id|id|" + id_counter);
+    sending = {
+        "command": "id",
+        "id": id_counter,
+        "sender": "server"
+    }
+    ws.send(JSON.stringify(sending));
     id_counter++;
 
     //On Message from Client with Data
-    ws.on("message", data => {
-        console.log(`Client has sent us: ${data}`);
+    ws.on("message", function(e) {
+        console.log(e.utf8Data);
+        data = JSON.parse(e.utf8Data);
+        
+        console.log(`Message received: ${data}`);
 
-        if(data.split("|")[0] == "next"){
+        if(data["command"] == "next"){
             // SEND NEXT TO ALL
             for (var i=0; i < CLIENTS.length; i++) {
                 console.log(i);
-                console.log("SENDING next with percentage " + data.split("|")[1] + " to client!");
+                console.log("SENDING next with percentage " + data["percentage"] + " to client!");
                 client = "";
                 for(var j=0; j < CLIENTS.length; j++){
                     if(CLIENTS[j][0] == ws){
@@ -34,14 +50,19 @@ wss.on("connection", function(ws) {
                         break;
                     }
                 }
-                CLIENTS[i][0].send("next|" + data.split("|")[1] + "|" + client[1]);
+                sending = {
+                    "command": "next",
+                    "percentage": data["percentage"],
+                    "sender": client[1]
+                }
+                CLIENTS[i][0].send(JSON.stringify(sending));
             }
         }
-        if(data.split("|")[0] == "prev"){
+        if(data["command"] == "prev"){
             // SEND PREV TO ALL
             for (var i=0; i < CLIENTS.length; i++) {
                 console.log(i);
-                console.log("SENDING prev with percentage " + data.split("|")[1] + " to client!");
+                console.log("SENDING prev with percentage " + data["percentage"] + " to client!");
                 client = "";
                 for(var j=0; j < CLIENTS.length; j++){
                     if(CLIENTS[j][0] == ws){
@@ -50,14 +71,19 @@ wss.on("connection", function(ws) {
                         break;
                     }
                 }
-                CLIENTS[i][0].send("prev|" + data.split("|")[1] + "|" + client[1]);
+                sending = {
+                    "command": "prev",
+                    "percentage": data["percentage"],
+                    "sender": client[1]
+                }
+                CLIENTS[i][0].send(JSON.stringify(sending));
             }
         }
-        if(data.split("|")[0] == "pause"){
+        if(data["command"] == "pause"){
             // SEND PAUSE AND SKIP TO ALL
             for (var i=0; i < CLIENTS.length; i++) {
                 console.log(i);
-                console.log("SENDING pause with percentage " + data.split("|")[1] + " to client!");
+                console.log("SENDING pause with percentage " + data["percentage"] + " to client!");
                 client = "";
                 for(var j=0; j < CLIENTS.length; j++){
                     if(CLIENTS[j][0] == ws){
@@ -66,15 +92,20 @@ wss.on("connection", function(ws) {
                         break;
                     }
                 }
-                CLIENTS[i][0].send("pause|" + data.split("|")[1] + "|" + client[1]);
+                sending = {
+                    "command": "pause",
+                    "percentage": data["percentage"],
+                    "sender": client[1]
+                }
+                CLIENTS[i][0].send(JSON.stringify(sending));
             }
         }
-        if(data.split("|")[0] == "play"){
+        if(data["command"] == "play"){
             // SEND PLAY AND SKIP TO ALL
             console.log("Length of Clients: " + CLIENTS.length);
             for (var i=0; i < CLIENTS.length; i++) {
                 console.log("Looping sending, current id: " + i);
-                console.log("SENDING play with percentage " + data.split("|")[1] + " to client!");
+                console.log("SENDING play with percentage " + data["percentage"] + " to client!");
                 client = "";
                 for(var j=0; j < CLIENTS.length; j++){
                     if(CLIENTS[j][0] == ws){
@@ -83,7 +114,12 @@ wss.on("connection", function(ws) {
                         break;
                     }
                 }
-                CLIENTS[i][0].send("play|" + data.split("|")[1] + "|" + client[1]);
+                sending = {
+                    "command": "play",
+                    "percentage": data["percentage"],
+                    "sender": client[1]
+                }
+                CLIENTS[i][0].send(JSON.stringify(sending));
             }
         }
     });

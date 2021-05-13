@@ -1,4 +1,5 @@
 var id = "";
+var message = "";
 
 async function get_storage() {
     var sp = new Promise(function(resolve, reject) {
@@ -19,7 +20,7 @@ async function get_storage() {
     connectToServer(serverp, portp);
 }
 
-function setPos(tmp_id, percent) {
+function setPos(percent) {
     console.log("Skipping to " + percent + "%.");
 
     var input_slider = document.getElementsByClassName("videoOsdPositionSlider")[0];
@@ -32,7 +33,7 @@ function setPos(tmp_id, percent) {
 
 }
 
-function pause(tmp_id) {
+function pause() {
     var pause_button = document.getElementsByClassName("videoOsd-btnPause")[0];
 
     console.log("Pausing...");
@@ -42,7 +43,7 @@ function pause(tmp_id) {
     }
 }
 
-function play(tmp_id) {
+function play() {
     var pause_button = document.getElementsByClassName("videoOsd-btnPause")[0];
 
     
@@ -67,40 +68,47 @@ function connectToServer(server_tmp, port_tmp) {
     ws.addEventListener("open", () => {
         window.alert("Connected to Websocket Server \"" + ws_connection_url + "\".");
 
-        ws.send("ready.");
+        ws.send(JSON.stringify({
+            "command": "ready"
+        })); 
+        
     });
 
     // On Message receive from Server
-    ws.addEventListener("message", msg => {
-        console.log("Message received: \"" + msg.data + "\"");
+    ws.addEventListener("message", function(e) {
+
+        console.log(e.data);
+        data = JSON.parse(e.data);
+        
+        console.log(`Message received: ${data}`);
         console.log("Our ID: " + id);
 
-        if(msg.data.split("|")[2] != id) {
-            if(msg.data.startsWith("id")){
-                id = msg.data.split("|")[2];
+        if(data["sender"] != id) {
+            if(data["command"] == "id"){
+                id = data["id"];
                 console.log("ID set to " + id);
             }
             
-            if(msg.data.startsWith("pause")){
+            if(data["command"] == "pause"){
                 // Pausing
-                pause(msg.data.split("|")[2]);
+                pause();
                 // Skipping to Position
-                setPos(msg.data.split("|")[2], msg.data.split("|")[1]);
+                setPos(data["percentage"]);
             }
 
-            if(msg.data.startsWith("play")){
+            if(data["command"] == "play"){
                 // Playing
-                setPos(msg.data.split("|")[2], msg.data.split("|")[1]);
+                setPos(data["percentage"]);
                 // Skipping to Position
-                play(msg.data.split("|")[2]);
+                play();
             }
 
-            if(msg.data.startsWith("next")){
+            if(data["command"] == "next"){
                 // Next
                 next();
             }
 
-            if(msg.data.startsWith("prev")){
+            if(data["command"] == "prev"){
                 // Prev
                 prev();
             }
@@ -125,14 +133,20 @@ function connectToServer(server_tmp, port_tmp) {
             var play_button = document.getElementsByClassName("videoOsd-btnPause")[0];
             if(play_button.getAttribute("title") == "Play") {
                 // Sending Play with percentage Server
-                sending = "play|" + percentage;
+                sending = {
+                    "command": "play",
+                    "percentage": percentage
+                }
                 console.log("SENDING \"" + sending + "\" to server!");
-                ws.send(sending);
+                ws.send(JSON.stringify(sending)); 
             } else if(play_button.getAttribute("title") == "Pause") {
                 // Sending Play with percentage Server
-                sending = "pause|" + percentage;
+                sending = {
+                    "command": "pause",
+                    "percentage": percentage
+                }
                 console.log("SENDING \"" + sending + "\" to server!");
-                ws.send(sending);
+                ws.send(JSON.stringify(sending)); 
             }
         }
     });
@@ -141,8 +155,11 @@ function connectToServer(server_tmp, port_tmp) {
     document.getElementsByClassName("btnNextTrack")[0].addEventListener("click", function(e) {
         console.log(e);
         if(e.isTrusted) {
-            sending = "next|0";
-            ws.send(sending);
+            sending = {
+                "command": "next",
+                "percentage": 0
+            }
+            ws.send(JSON.stringify(sending));
         }
     });
 
@@ -150,8 +167,11 @@ function connectToServer(server_tmp, port_tmp) {
     document.getElementsByClassName("btnPreviousTrack")[0].addEventListener("click", function(e){
         console.log(e);
         if(e.isTrusted) {
-            sending = "prev|0";
-            ws.send(sending);
+            sending = {
+                "command": "prev",
+                "percentage": 0
+            }
+            ws.send(JSON.stringify(sending));
         }
     });
 
@@ -179,14 +199,20 @@ function connectToServer(server_tmp, port_tmp) {
             var play_button = document.getElementsByClassName("videoOsd-btnPause")[0];
             if(play_button.getAttribute("title") == "Play") {
                 // Sending Pause with percentage Server
-                sending = "pause|" + percentage;
+                sending = {
+                    "command": "pause",
+                    "percentage": percentage
+                }
                 console.log("SENDING \"" + sending + "\" to server!");
-                ws.send(sending);
+                ws.send(JSON.stringify(sending));
             } else if(play_button.getAttribute("title") == "Pause") {
                 // Sending Play with percentage Server
-                sending = "play|" + percentage;
+                sending = {
+                    "command": "play",
+                    "percentage": percentage
+                }
                 console.log("SENDING \"" + sending + "\" to server!");
-                ws.send(sending);
+                ws.send(JSON.stringify(sending));
             }
         }
     });
@@ -215,14 +241,20 @@ function connectToServer(server_tmp, port_tmp) {
             var play_button = document.getElementsByClassName("videoOsd-btnPause")[0];
             if(play_button.getAttribute("title") == "Play") {
                 // Sending Pause with percentage Server
-                sending = "pause|" + percentage;
+                sending = {
+                    "command": "pause",
+                    "percentage": percentage
+                }
                 console.log("SENDING \"" + sending + "\" to server!");
-                ws.send(sending);
+                ws.send(JSON.stringify(sending));
             } else if(play_button.getAttribute("title") == "Pause") {
                 // Sending Play with percentage Server
-                sending = "play|" + percentage;
+                sending = {
+                    "command": "play",
+                    "percentage": percentage
+                }
                 console.log("SENDING \"" + sending + "\" to server!");
-                ws.send(sending);
+                ws.send(JSON.stringify(sending));
             }
         }
     });
@@ -237,14 +269,20 @@ function connectToServer(server_tmp, port_tmp) {
             var play_button = document.getElementsByClassName("videoOsd-btnPause")[0];
             if(play_button.getAttribute("title") == "Play") {
                 // Sending Pause with percentage Server
-                sending = "pause|" + percentage;
+                sending = {
+                    "command": "pause",
+                    "percentage": percentage
+                }
                 console.log("SENDING \"" + sending + "\" to server!");
-                ws.send(sending);
+                ws.send(JSON.stringify(sending));
             } else if(play_button.getAttribute("title") == "Pause") {
                 // Sending Play with percentage Server
-                sending = "play|" + percentage;
+                sending = {
+                    "command": "play",
+                    "percentage": percentage
+                }
                 console.log("SENDING \"" + sending + "\" to server!");
-                ws.send(sending);
+                ws.send(JSON.stringify(sending));
             }
         }
     });
