@@ -5,8 +5,39 @@ function writeLog(text, type) {
     console.log(date + " " + time + " " + type + ": " + text);
 }
 
-const WebSocketServerPort = 8082;
+var fsprom = require("fs").promises;
+var fs = require("fs");
+
+async function getPort() {
+    var config_file = "./port.json";
+    var WebSocketServerPort;
+
+    if(fs.existsSync(config_file)){
+        WebSocketServerPort = await fsprom.readFile(config_file, "utf8");
+        WebSocketServerPort = JSON.parse(WebSocketServerPort)["port"];
+
+        writeLog("Port set to " + WebSocketServerPort + " from file \"" + config_file + "\". You can change the port there.", "INFO")
+    } else {
+        jsondata = {
+            "port": 8082
+        }
+        
+        fs.writeFile(config_file, JSON.stringify(jsondata), function(err, result) {
+            if(err) console.log("error", err);
+        });
+    
+        WebSocketServerPort = 8082;
+
+        writeLog("Port set to " + WebSocketServerPort + ". Config File \"" + config_file + "\" created. You can change the port there.", "INFO")
+    }
+
+    startServer(WebSocketServerPort);
+}
+
+function startServer(port) {
+    //const WebSocketServerPort = 8082;
 const WebSocketServer = require("websocket").server;
+const WebSocketServerPort = port;
 const http = require('http');
 
 const server = http.createServer();
@@ -140,3 +171,6 @@ wss.on("request", function(request) {
         writeLog("Client with the id " + curr_id + " has disconnected. There are now " + CLIENTS.length + " clients on the room.", "INFO");
     });
 });
+}
+
+getPort();
