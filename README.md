@@ -14,7 +14,7 @@ This is my first Chrome Extension so please be gentle on me. The code is far fro
 1) Download the newest Release of the [Server](https://github.com/Quadrubo/emby-sync-watch/releases/tag/server-v1.2) from the releases tab.
 2) Extract the Zip file to a Folder of your choice.
 3) Go to https://nodejs.org/en/download/ and install nodejs on your computer.
-4) Go to the Folder you extracted in step 2 and open a terminal there.
+4) Go to the Folder you extracted in step 2 and open a terminal there (Shift + Right Click on free Space -> Open cmd/powershell here).
 5) Enter "node .\index.js".
 6) The Server has now started.
 7) If you want to edit the port just open the port.json file the server created and change the port. Restart the server afterwards.
