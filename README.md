@@ -17,6 +17,7 @@ This is my first Chrome Extension so please be gentle on me. The code is far fro
 4) Go to the Folder you extracted in step 2 and open a terminal there.
 5) Enter "node .\index.js".
 6) The Server has now started.
+7) If you want to use the Server over the Internet please forward TCP Port 8082 on your router.
 
 # Usage
 
