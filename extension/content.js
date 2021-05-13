@@ -151,36 +151,42 @@ function connectToServer(server_tmp, port_tmp) {
         }
     });
 
-    
-    document.getElementsByClassName("view flex page")[1].addEventListener("click", function(e) {
-        if(e.isTrusted){
-            if(e.target.className == "view flex page"){
-                console.log(e); 
-                // Human input, sending to other people
-                var percentage = document.getElementsByClassName("emby-slider-background-lower")[0].getAttribute("style");
-                percentage = percentage.split(":")[1].split("%")[0];
-
-                var play_button = document.getElementsByClassName("videoOsd-btnPause")[0];
-                if(play_button.getAttribute("title") == "Play") {
-                    // Sending Play with percentage Server
-                    sending = {
-                        "command": "play",
-                        "percentage": percentage
+    var page = document.getElementsByClassName("view flex page");
+    for(var i = 0; i < page.length; i++){
+        if (page[i].getAttribute("data-properties") == "fullscreen"){
+            page[i].addEventListener("click", function(e) {
+                if(e.isTrusted){
+                    if(e.target.className == "view flex page"){
+                        if(e.target.getAttribute)
+                        console.log(e); 
+                        // Human input, sending to other people
+                        var percentage = document.getElementsByClassName("emby-slider-background-lower")[0].getAttribute("style");
+                        percentage = percentage.split(":")[1].split("%")[0];
+        
+                        var play_button = document.getElementsByClassName("videoOsd-btnPause")[0];
+                        if(play_button.getAttribute("title") == "Play") {
+                            // Sending Play with percentage Server
+                            sending = {
+                                "command": "play",
+                                "percentage": percentage
+                            }
+                            console.log("SENDING \"" + sending + "\" to server!");
+                            ws.send(JSON.stringify(sending)); 
+                        } else if(play_button.getAttribute("title") == "Pause") {
+                            // Sending Play with percentage Server
+                            sending = {
+                                "command": "pause",
+                                "percentage": percentage
+                            }
+                            console.log("SENDING \"" + sending + "\" to server!");
+                            ws.send(JSON.stringify(sending)); 
+                        }
                     }
-                    console.log("SENDING \"" + sending + "\" to server!");
-                    ws.send(JSON.stringify(sending)); 
-                } else if(play_button.getAttribute("title") == "Pause") {
-                    // Sending Play with percentage Server
-                    sending = {
-                        "command": "pause",
-                        "percentage": percentage
-                    }
-                    console.log("SENDING \"" + sending + "\" to server!");
-                    ws.send(JSON.stringify(sending)); 
                 }
-            }
+            });
+            break;
         }
-    })
+    }
 
     // On next_track button press
     document.getElementsByClassName("btnNextTrack")[0].addEventListener("click", function(e) {
