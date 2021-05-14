@@ -1,6 +1,13 @@
 var id = "";
 var message = "";
 
+function writeLog(text, type) {
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours()+':'+today.getMinutes()+':'+today.getSeconds();
+    console.log(date + " " + time + " " + type + ": " + text);
+}
+
 async function get_storage() {
     var sp = new Promise(function(resolve, reject) {
         chrome.storage.sync.get(["server"], function(options) {
@@ -21,7 +28,7 @@ async function get_storage() {
 }
 
 function setPos(percent) {
-    console.log("Skipping to " + percent + "%.");
+    writeLog("Skipping to " + percent + "%.", "INFO");
 
     var input_slider = document.getElementsByClassName("videoOsdPositionSlider")[0];
 
@@ -36,7 +43,7 @@ function setPos(percent) {
 function pause() {
     var pause_button = document.getElementsByClassName("videoOsd-btnPause")[0];
 
-    console.log("Pausing...");
+    writeLog("Pausing.", "INFO");
 
     if(pause_button.getAttribute("title") == "Pause") {
         pause_button.click();
@@ -77,16 +84,14 @@ function connectToServer(server_tmp, port_tmp) {
     // On Message receive from Server
     ws.addEventListener("message", function(e) {
 
-        console.log(e.data);
         data = JSON.parse(e.data);
-        
-        console.log(`Message received: ${data}`);
-        console.log("Our ID: " + id);
 
+        writeLog(`Message received: ${JSON.stringify(data)}`, "INFO");
+        
         if(data["sender"] != id) {
             if(data["command"] == "id"){
                 id = data["id"];
-                console.log("ID set to " + id);
+                writeLog("ID set to " + id, "INFO");
             }
             
             if(data["command"] == "pause"){
@@ -113,7 +118,7 @@ function connectToServer(server_tmp, port_tmp) {
                 prev();
             }
         } else {
-            console.log("Own request. Ignoring!");
+            writeLog("This is our own request. Ignoring it.", "INFO");
         }
           
     });
@@ -124,7 +129,6 @@ function connectToServer(server_tmp, port_tmp) {
 
     // On play_pause button press
     document.getElementsByClassName("videoOsd-btnPause")[0].addEventListener("click", function(e) {
-        console.log(e);
         if(e.isTrusted){
             // Human input, sending to other people
             var percentage = document.getElementsByClassName("emby-slider-background-lower")[0].getAttribute("style");
@@ -137,7 +141,7 @@ function connectToServer(server_tmp, port_tmp) {
                     "command": "play",
                     "percentage": percentage
                 }
-                console.log("SENDING \"" + sending + "\" to server!");
+                writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending)); 
             } else if(play_button.getAttribute("title") == "Pause") {
                 // Sending Play with percentage Server
@@ -145,7 +149,7 @@ function connectToServer(server_tmp, port_tmp) {
                     "command": "pause",
                     "percentage": percentage
                 }
-                console.log("SENDING \"" + sending + "\" to server!");
+                writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending)); 
             }
         }
@@ -158,7 +162,6 @@ function connectToServer(server_tmp, port_tmp) {
                 if(e.isTrusted){
                     if(e.target.className == "view flex page"){
                         if(e.target.getAttribute)
-                        console.log(e); 
                         // Human input, sending to other people
                         var percentage = document.getElementsByClassName("emby-slider-background-lower")[0].getAttribute("style");
                         percentage = percentage.split(":")[1].split("%")[0];
@@ -170,7 +173,7 @@ function connectToServer(server_tmp, port_tmp) {
                                 "command": "play",
                                 "percentage": percentage
                             }
-                            console.log("SENDING \"" + sending + "\" to server!");
+                            writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                             ws.send(JSON.stringify(sending)); 
                         } else if(play_button.getAttribute("title") == "Pause") {
                             // Sending Play with percentage Server
@@ -178,7 +181,7 @@ function connectToServer(server_tmp, port_tmp) {
                                 "command": "pause",
                                 "percentage": percentage
                             }
-                            console.log("SENDING \"" + sending + "\" to server!");
+                            writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                             ws.send(JSON.stringify(sending)); 
                         }
                     }
@@ -190,31 +193,30 @@ function connectToServer(server_tmp, port_tmp) {
 
     // On next_track button press
     document.getElementsByClassName("btnNextTrack")[0].addEventListener("click", function(e) {
-        console.log(e);
         if(e.isTrusted) {
             sending = {
                 "command": "next",
                 "percentage": 0
             }
+            writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
             ws.send(JSON.stringify(sending));
         }
     });
 
     // On previous_track button press
     document.getElementsByClassName("btnPreviousTrack")[0].addEventListener("click", function(e){
-        console.log(e);
         if(e.isTrusted) {
             sending = {
                 "command": "prev",
                 "percentage": 0
             }
+            writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
             ws.send(JSON.stringify(sending));
         }
     });
 
     // On 10_backward button press
     document.getElementsByClassName("btnRewind")[0].addEventListener("click", function(e) {
-        console.log(e);
         if(e.isTrusted) {
             var time_left = document.getElementsByClassName("videoOsdPositionText")[0].textContent.split(":");
             var time_right = document.getElementsByClassName("videoOsdDurationText")[0].textContent.split(":");
@@ -240,7 +242,7 @@ function connectToServer(server_tmp, port_tmp) {
                     "command": "pause",
                     "percentage": percentage
                 }
-                console.log("SENDING \"" + sending + "\" to server!");
+                writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending));
             } else if(play_button.getAttribute("title") == "Pause") {
                 // Sending Play with percentage Server
@@ -248,7 +250,7 @@ function connectToServer(server_tmp, port_tmp) {
                     "command": "play",
                     "percentage": percentage
                 }
-                console.log("SENDING \"" + sending + "\" to server!");
+                writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending));
             }
         }
@@ -256,7 +258,6 @@ function connectToServer(server_tmp, port_tmp) {
 
     // On 10_forward button press
     document.getElementsByClassName("btnOsdFastForward")[0].addEventListener("click", function(e) {
-        console.log(e);
         if(e.isTrusted) {
             var time_left = document.getElementsByClassName("videoOsdPositionText")[0].textContent.split(":");
             var time_right = document.getElementsByClassName("videoOsdDurationText")[0].textContent.split(":");
@@ -282,7 +283,7 @@ function connectToServer(server_tmp, port_tmp) {
                     "command": "pause",
                     "percentage": percentage
                 }
-                console.log("SENDING \"" + sending + "\" to server!");
+                writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending));
             } else if(play_button.getAttribute("title") == "Pause") {
                 // Sending Play with percentage Server
@@ -290,7 +291,7 @@ function connectToServer(server_tmp, port_tmp) {
                     "command": "play",
                     "percentage": percentage
                 }
-                console.log("SENDING \"" + sending + "\" to server!");
+                writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending));
             }
         }
@@ -298,7 +299,6 @@ function connectToServer(server_tmp, port_tmp) {
 
     // On slider change
     document.getElementsByClassName("videoOsdPositionSlider emby-slider")[0].addEventListener("click", function(e) {
-        console.log(e);
         if(e.isTrusted){
             var percentage = document.getElementsByClassName("emby-slider-background-lower")[0].getAttribute("style");
             percentage = percentage.split(":")[1].split("%")[0];
@@ -310,7 +310,7 @@ function connectToServer(server_tmp, port_tmp) {
                     "command": "pause",
                     "percentage": percentage
                 }
-                console.log("SENDING \"" + sending + "\" to server!");
+                writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending));
             } else if(play_button.getAttribute("title") == "Pause") {
                 // Sending Play with percentage Server
@@ -318,7 +318,7 @@ function connectToServer(server_tmp, port_tmp) {
                     "command": "play",
                     "percentage": percentage
                 }
-                console.log("SENDING \"" + sending + "\" to server!");
+                writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending));
             }
         }
