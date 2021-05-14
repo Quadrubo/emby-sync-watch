@@ -34,23 +34,28 @@ function injectTheScript() {
 }
 
 async function get_storage() {
-    var dsp = new Promise(function(resolve, reject) {
-        chrome.storage.sync.get(["default_server"], function(options) {
-            resolve(options.default_server);
+    var pp = new Promise(function(resolve, reject) {
+        chrome.storage.sync.get(["conn_profiles"], function(options) {
+            resolve(options.conn_profiles);
         });
     });
 
-    var dpp = new Promise(function(resolve, reject) {
-        chrome.storage.sync.get(["default_port"], function(options) {
-            resolve(options.default_port);
-        });
-    });
+    profiles = await pp;
 
-    const defserverp = await dsp;
-    const defportp = await dpp;
+    console.log(profiles.profiles);
 
-    document.getElementById("server_input").value = defserverp;
-    document.getElementById("port_input").value = defportp;
+    var counter = 0;
+    for(obj in profiles.profiles) {
+        console.log(profiles.profiles[obj]);
+        
+        var option = document.createElement("option");
+        option.setAttribute("value", "option_" + counter);
+        option.innerText = profiles.profiles[obj]["profile_name"];
+        document.getElementById("profile").appendChild(option);
+
+        counter++;
+    }
+
 }
 
 get_storage();
@@ -67,4 +72,21 @@ document.getElementById("help").addEventListener('click', function(e){
     chrome.tabs.create({url: "https://github.com/Quadrubo/emby-sync-watch#readme"}, function (tab) {
         console.log("Github Readme page opened");
     });
+});
+
+document.getElementById("profile").addEventListener("change", function(e) {
+    console.log(e);
+    var nbr = e.target.options[e.target.selectedIndex].value.split("_")[1];
+
+    if(nbr == undefined) {
+        document.getElementById("server_input").value = "";
+        document.getElementById("port_input").value = "";
+    } else {
+        var curr_profile = profiles.profiles[nbr];
+
+        console.log(profiles.profiles[nbr]);
+
+        document.getElementById("server_input").value = curr_profile["profile_server"];
+        document.getElementById("port_input").value = curr_profile["profile_port"];
+    }
 });

@@ -1,17 +1,43 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
     <body>
-        <h3>Options</h3>
-        <p>Default Server (192.168.178.170): </p>
-        <input type="text" id="def_server_input">
-        <p id="error_def_server" style="color: red;"></p>
-        <p>Default Port (8082): </p>
-        <input type="text" id="def_port_input">
-        <p id="error_def_port" style="color: red;"></p>
+        <h2>Options</h2>
+        <hr>
+        <h3>Profiles</h3>
+        <p>Name: </p>
+        <input type="text" id="profile_name_input">
+        <p id="error_profile_name_input" style="color: red;"></p>
+        <p>Server: </p>
+        <input type="text" id="profile_server_input">
+        <p id="error_profile_server_input" style="color: red;"></p>
+        <p>Port (8082): </p>
+        <input type="text" id="profile_port_input">
+        <p id="error_profile_port_input" style="color: red;"></p>
         <br>
-        <button id="apply">Save!</button>
+        <button id="apply">Add Profile!</button>
         <p id="save_text" style="color: green;"></p>
-        <p>Not sure what to enter? Check out the <a href="https://github.com/Quadrubo/emby-sync-watch#help">Help</a> Section on my Github :)</p>
+        <p>Not sure what to enter? Check out the <a href="https://github.com/Quadrubo/emby-sync-watch#help">Help</a> Section on my Github :)</p>        
+        <hr>
+        <button id="delete_all_profiles">Delete all Profiles (in case of corrupt)</button>
+        <table>
+            <thead>
+                <th>Profile Name</th>
+                <th>Profile Server</th>
+                <th>Profile Port</th>
+                <th>Delete</th>
+            </thead>
+            <tbody id="profile_tbody">
+            </tbody>
+        </table>
     </body>
+    <script src="load_profiles.js"></script>
     <script src="options.js"></script>
 </html>
