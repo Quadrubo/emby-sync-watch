@@ -13,7 +13,7 @@ This is my first Chrome Extension so please be gentle on me. The code is far fro
 4) Tick the "Developer Mode" box on the top right corner of the screen.
 5) Click on "load unpacked extension" and select the folder you created in step 2.
 6) The Extension now shows up in the top right corner of the screen :)
-7) Go to [Usage](https://github.com/Quadrubo/emby-sync-watch#usage) if you want to learn more about how to connect to servers.
+7) Go to [Usage](https://github.com/Quadrubo/emby-sync-watch#usage-extension) if you want to learn more about how to connect to servers.
 
 # Setup Server
 1) Download the latest [Release](https://github.com/Quadrubo/emby-sync-watch/releases) of the Server ("emby.sync.watch.SERVER. ... .zip") from the releases tab.
