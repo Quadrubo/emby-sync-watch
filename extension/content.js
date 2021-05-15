@@ -69,8 +69,8 @@ function next() {
 
 function connectToServer(server_tmp, port_tmp) {
     var ws_connection_url = "ws://" + server_tmp + ":" + port_tmp;
-    const ws = new WebSocket(ws_connection_url);
-
+    var ws = new WebSocket(ws_connection_url);
+    
     // On opened connection
     ws.addEventListener("open", () => {
         window.alert("Connected to Websocket Server \"" + ws_connection_url + "\".");
@@ -123,12 +123,16 @@ function connectToServer(server_tmp, port_tmp) {
           
     });
 
-    ws.addEventListener("close", () => {
+    ws.addEventListener("close", function(e) {
         window.alert("Connection closed.");
+        ws = undefined;
     });
 
     // On play_pause button press
     document.getElementsByClassName("videoOsd-btnPause")[0].addEventListener("click", function(e) {
+        if(ws == undefined) {
+            return;
+        }
         if(e.isTrusted){
             // Human input, sending to other people
             var percentage = document.getElementsByClassName("emby-slider-background-lower")[0].getAttribute("style");
@@ -159,6 +163,9 @@ function connectToServer(server_tmp, port_tmp) {
     for(var i = 0; i < page.length; i++){
         if (page[i].getAttribute("data-properties") == "fullscreen"){
             page[i].addEventListener("click", function(e) {
+                if(ws == undefined) {
+                    return;
+                }
                 if(e.isTrusted){
                     if(e.target.className == "view flex page"){
                         if(e.target.getAttribute)
@@ -193,6 +200,9 @@ function connectToServer(server_tmp, port_tmp) {
 
     // On next_track button press
     document.getElementsByClassName("btnNextTrack")[0].addEventListener("click", function(e) {
+        if(ws == undefined) {
+            return;
+        }
         if(e.isTrusted) {
             sending = {
                 "command": "next",
@@ -205,6 +215,9 @@ function connectToServer(server_tmp, port_tmp) {
 
     // On previous_track button press
     document.getElementsByClassName("btnPreviousTrack")[0].addEventListener("click", function(e){
+        if(ws == undefined) {
+            return;
+        }
         if(e.isTrusted) {
             sending = {
                 "command": "prev",
@@ -218,6 +231,9 @@ function connectToServer(server_tmp, port_tmp) {
     // On 10_backward button press
     document.getElementsByClassName("btnRewind")[0].addEventListener("click", function(e) {
         if(e.isTrusted) {
+            if(ws == undefined) {
+                return;
+            }
             var time_left = document.getElementsByClassName("videoOsdPositionText")[0].textContent.split(":");
             var time_right = document.getElementsByClassName("videoOsdDurationText")[0].textContent.split(":");
 
@@ -258,6 +274,9 @@ function connectToServer(server_tmp, port_tmp) {
 
     // On 10_forward button press
     document.getElementsByClassName("btnOsdFastForward")[0].addEventListener("click", function(e) {
+        if(ws == undefined) {
+            return;
+        }
         if(e.isTrusted) {
             var time_left = document.getElementsByClassName("videoOsdPositionText")[0].textContent.split(":");
             var time_right = document.getElementsByClassName("videoOsdDurationText")[0].textContent.split(":");
@@ -299,6 +318,9 @@ function connectToServer(server_tmp, port_tmp) {
 
     // On slider change
     document.getElementsByClassName("videoOsdPositionSlider emby-slider")[0].addEventListener("click", function(e) {
+        if(ws == undefined) {
+            return;
+        }
         if(e.isTrusted){
             var percentage = document.getElementsByClassName("emby-slider-background-lower")[0].getAttribute("style");
             percentage = percentage.split(":")[1].split("%")[0];
