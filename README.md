@@ -9,6 +9,7 @@ This is my first Chrome Extension so please be gentle on me. The code is far fro
 4) Tick the "Developer Mode" box on the top right corner of the screen.
 5) Click on "load unpacked extension" and select the folder you created in step 2.
 6) The Extension now shows up in the top right corner of the screen :)
+7) Go to [Usage](https://github.com/Quadrubo/emby-sync-watch#usage) if you want to learn more about how to connect to servers.
 
 # Setup Server
 1) Download the latest [Release](https://github.com/Quadrubo/emby-sync-watch/releases) of the Server ("emby.sync.watch.SERVER. ... .zip") from the releases tab.
@@ -21,19 +22,24 @@ This is my first Chrome Extension so please be gentle on me. The code is far fro
 7) If you want to edit the port just open the port.json file the server created and change the port. Restart the server afterwards.
 7) If you want to use the Server over the Internet please forward TCP Port 8082 (or the port you set yourself) on your router.
 
-# Usage
+# Usage (Extension)
 
-1) Open a the Emby Webpage and start the Video you want to watch.
+1) On Installation the Extension should open a Webpage where you can create Profiles. 
+1) Open the Emby Webpage and start the Video you want to watch.
+3) Click on the Chrome Extension on the top right Corner of your screen, if it's not there click on the puzzle piece and then on the Extension.
+4) Select a Profile you want to connect to, if you didn't create a profile yet go back to step 1). If you want to connect manually don't select a profile and just enter the Server / Port manually.
 2) Connect to the Server, if everything is setup right you should see a popup saying you're connected.
 3) Everyone else who joins in from now on has control over your video and vice versa :)
 
 # Help
 ### What should I enter on the Options page?
-* Default Server
+* Name
+    * The Name you want to give the Profile
+* Server
      * The IP-Adress of the Server you want to connect you.
         * If you setup the Server on your PC it's "localhost".
-        * If you setup the Server on a different PC it's the IP of that PC (use "ipconfig" to get it)
-* Default Port
+        * If you setup the Server on a different PC it's the IP of that PC
+* Port
     * The Port of the Server you want to connect to. If you didn't change my Code it's "8082".
 
 ### That didn't help me.
