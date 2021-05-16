@@ -7,13 +7,14 @@ This is my first Chrome Extension so please be gentle on me. The code is far fro
 * Any help would be appreciated :)
 
 # Setup Client (Extension)
-1) Download the latest [Release](https://github.com/Quadrubo/emby-sync-watch/releases) of the Chrome Extension ("emby.sync.watch.EXTENSION. ... .zip") from the releases tab.
-2) Extract the Zip file to a Folder of your choice.
-3) Open Chrome and head to: "chrome://extensions/".
-4) Tick the "Developer Mode" box on the top right corner of the screen.
-5) Click on "load unpacked extension" and select the folder you created in step 2.
-6) The Extension now shows up in the top right corner of the screen :)
-7) Go to [Usage](https://github.com/Quadrubo/emby-sync-watch#usage-extension) if you want to learn more about how to connect to servers.
+1) Emby Sync Watch got accepted into the Chrome Webstore! Go to [Emby Sync Watch](https://chrome.google.com/webstore/detail/emby-sync-watch/cabhbnblooihogkhajehgmohhipnbach) to download it. Skip to step 8), if you wanna download it manually continue with step 2).
+2) Download the latest [Release](https://github.com/Quadrubo/emby-sync-watch/releases) of the Chrome Extension ("emby.sync.watch.EXTENSION. ... .zip") from the releases tab.
+3) Extract the Zip file to a Folder of your choice.
+4) Open Chrome and head to: "chrome://extensions/".
+5) Tick the "Developer Mode" box on the top right corner of the screen.
+6) Click on "load unpacked extension" and select the folder you created in step 2.
+7) The Extension now shows up in the top right corner of the screen :)
+8) Go to [Usage](https://github.com/Quadrubo/emby-sync-watch#usage-extension) if you want to learn more about how to connect to servers.
 
 # Setup Server
 1) Download the latest [Release](https://github.com/Quadrubo/emby-sync-watch/releases) of the Server ("emby.sync.watch.SERVER. ... .zip") from the releases tab.
