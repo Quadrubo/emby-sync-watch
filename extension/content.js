@@ -1,5 +1,21 @@
 var id = "";
 var message = "";
+/* Arabic, Belarusian, Bulgarian, Catalan, Chinese Simplified, Chinese Traditional, Chinese Traditional (Hong Kong), Croatian, Czech,
+* Danish, Dutch, English (UK), English (US), Estonian, Finnish, French, French (Canada), German, Greek, Hindi (India), Hungarian,
+* Indonesian, Italian, Japanese, Kazakh, Korean, Lithuanian, Malay, Norwegian, Persian, Polish, Portuguese (Brazil), Portuguese (Portugal),
+* Romanian, Russian, Slovak, Slovenian (Slovenia), Spanish, Spanish (Latin America), Spanish (Mexico), Spanish (United States), Swedish,
+* Swiss German, Turkish, Ukrainian, Vietnamnese
+*/
+var button_play_array = ["تشغيل", "Play", "Изпълняване", "Reprodueix", "播放", "播放", "播放", "Pokreni", "Pokreni",
+"Afspil", "Afspelen", "Play", "Play", "Esita", "Toista", "Lire", "Lire", "Abspielen", "Αναπαραγωγή", "נגן", "Play", "Lejátszás",
+"Play", "Riproduci", "Play", "Ойнату", "재생", "Leisti", "Play", "Spill", "Play", "Odtwarzaj", "Reproduzir", "Reproduzir",
+"Play", "Смотреть", "Prehrať", "Play", "Reproducir", "Play", "Reproducir", "Play", "Spela",
+"Play", "Oynat", "Відтворити", ""];
+var button_pause_array = ["إيقاف مؤقت", "Pause", "Пауза", "Pause", "暂停", "暫停", "Pause", "Pause", "Pause",
+"Pause", "Pauze", "Pause", "Pause", "Paus", "Pysäytä", "Pause", "Pause", "Pause", "Παύση", "Pause", "Pause", "Szünet",
+"Pause", "Pause", "Pause", "Pause", "일시정지", "Pause", "Pause", "Pause", "Pause", "Wstrzymaj", "Pausar", "Pause", 
+"Pause", "Пауза", "Pozastaviť", "Pause", "Pausa", "Pause", "Pausa", "Pause", "Pausa",
+"Pause", "Pause", "Пауза", ""];
 
 function writeLog(text, type) {
     var today = new Date();
@@ -45,7 +61,7 @@ function pause() {
 
     writeLog("Pausing.", "INFO");
 
-    if(pause_button.getAttribute("title") == "Pause") {
+    if(button_pause_array.includes(play_button.getAttribute("title"))){
         pause_button.click();
     }
 }
@@ -54,7 +70,7 @@ function play() {
     var pause_button = document.getElementsByClassName("videoOsd-btnPause")[0];
 
     
-    if(pause_button.getAttribute("title") == "Play") {
+    if(button_play_array.includes(play_button.getAttribute("title"))){
         pause_button.click();
     }
 }
@@ -139,7 +155,7 @@ function connectToServer(server_tmp, port_tmp) {
             percentage = percentage.split(":")[1].split("%")[0];
 
             var play_button = document.getElementsByClassName("videoOsd-btnPause")[0];
-            if(play_button.getAttribute("title") == "Play") {
+            if(button_play_array.includes(play_button.getAttribute("title"))){
                 // Sending Play with percentage Server
                 sending = {
                     "command": "play",
@@ -147,7 +163,7 @@ function connectToServer(server_tmp, port_tmp) {
                 }
                 writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending)); 
-            } else if(play_button.getAttribute("title") == "Pause") {
+            }else if(button_pause_array.includes(play_button.getAttribute("title"))){
                 // Sending Play with percentage Server
                 sending = {
                     "command": "pause",
@@ -174,7 +190,7 @@ function connectToServer(server_tmp, port_tmp) {
                         percentage = percentage.split(":")[1].split("%")[0];
         
                         var play_button = document.getElementsByClassName("videoOsd-btnPause")[0];
-                        if(play_button.getAttribute("title") == "Play") {
+                        if(button_play_array.includes(play_button.getAttribute("title"))){
                             // Sending Play with percentage Server
                             sending = {
                                 "command": "play",
@@ -182,7 +198,7 @@ function connectToServer(server_tmp, port_tmp) {
                             }
                             writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                             ws.send(JSON.stringify(sending)); 
-                        } else if(play_button.getAttribute("title") == "Pause") {
+                        }else if(button_pause_array.includes(play_button.getAttribute("title"))){
                             // Sending Play with percentage Server
                             sending = {
                                 "command": "pause",
@@ -252,7 +268,7 @@ function connectToServer(server_tmp, port_tmp) {
             var percentage = (((time_left - 10) / (time_right + time_left)) * 100).toFixed(2);
 
             var play_button = document.getElementsByClassName("videoOsd-btnPause")[0];
-            if(play_button.getAttribute("title") == "Play") {
+            if(button_play_array.includes(play_button.getAttribute("title"))){
                 // Sending Pause with percentage Server
                 sending = {
                     "command": "pause",
@@ -260,7 +276,7 @@ function connectToServer(server_tmp, port_tmp) {
                 }
                 writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending));
-            } else if(play_button.getAttribute("title") == "Pause") {
+            }else if(button_pause_array.includes(play_button.getAttribute("title"))){
                 // Sending Play with percentage Server
                 sending = {
                     "command": "play",
@@ -296,7 +312,7 @@ function connectToServer(server_tmp, port_tmp) {
             var percentage = (((time_left + 10) / (time_right + time_left)) * 100).toFixed(2);
 
             var play_button = document.getElementsByClassName("videoOsd-btnPause")[0];
-            if(play_button.getAttribute("title") == "Play") {
+            if(button_play_array.includes(play_button.getAttribute("title"))){
                 // Sending Pause with percentage Server
                 sending = {
                     "command": "pause",
@@ -304,7 +320,7 @@ function connectToServer(server_tmp, port_tmp) {
                 }
                 writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending));
-            } else if(play_button.getAttribute("title") == "Pause") {
+            }else if(button_pause_array.includes(play_button.getAttribute("title"))){
                 // Sending Play with percentage Server
                 sending = {
                     "command": "play",
@@ -326,7 +342,7 @@ function connectToServer(server_tmp, port_tmp) {
             percentage = percentage.split(":")[1].split("%")[0];
 
             var play_button = document.getElementsByClassName("videoOsd-btnPause")[0];
-            if(play_button.getAttribute("title") == "Play") {
+            if(button_play_array.includes(play_button.getAttribute("title"))){
                 // Sending Pause with percentage Server
                 sending = {
                     "command": "pause",
@@ -334,7 +350,7 @@ function connectToServer(server_tmp, port_tmp) {
                 }
                 writeLog("Sending JSON data to server: " + JSON.stringify(sending), "INFO");
                 ws.send(JSON.stringify(sending));
-            } else if(play_button.getAttribute("title") == "Pause") {
+            }else if(button_pause_array.includes(play_button.getAttribute("title"))){
                 // Sending Play with percentage Server
                 sending = {
                     "command": "play",
