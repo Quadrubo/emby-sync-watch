@@ -7,7 +7,7 @@ This is my first Chrome Extension so please be gentle on me. The code is far fro
 * Any help would be appreciated :)
 
 # Setup Client (Extension)
-1) Emby Sync Watch got accepted into the Chrome Webstore! (It's not up to Date right now, continue with step 2). Go to [Emby Sync Watch](https://chrome.google.com/webstore/detail/emby-sync-watch/cabhbnblooihogkhajehgmohhipnbach) to download it. Skip to step 8), if you wanna download it manually continue with step 2).
+1) Emby Sync Watch got accepted into the Chrome Webstore! Go to [Emby Sync Watch](https://chrome.google.com/webstore/detail/emby-sync-watch/cabhbnblooihogkhajehgmohhipnbach) to download it. Skip to step 8), if you wanna download it manually continue with step 2).
 2) Download the latest [Release](https://github.com/Quadrubo/emby-sync-watch/releases) of the Chrome Extension ("emby.sync.watch.EXTENSION. ... .zip") from the releases tab.
 3) Extract the Zip file to a Folder of your choice.
 4) Open Chrome and head to: "chrome://extensions/".
