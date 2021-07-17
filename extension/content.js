@@ -61,7 +61,7 @@ function pause() {
 
     writeLog("Pausing.", "INFO");
 
-    if(button_pause_array.includes(play_button.getAttribute("title"))){
+    if(button_pause_array.includes(pause_button.getAttribute("title"))){
         pause_button.click();
     }
 }
@@ -70,7 +70,7 @@ function play() {
     var pause_button = document.getElementsByClassName("videoOsd-btnPause")[0];
 
     
-    if(button_play_array.includes(play_button.getAttribute("title"))){
+    if(button_play_array.includes(pause_button.getAttribute("title"))){
         pause_button.click();
     }
 }
