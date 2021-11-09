@@ -84,7 +84,7 @@ function next() {
 }
 
 function connectToServer(server_tmp, port_tmp) {
-    var ws_connection_url = "ws://" + server_tmp + ":" + port_tmp;
+    var ws_connection_url = "wss://" + server_tmp + ":" + port_tmp;
     var ws = new WebSocket(ws_connection_url);
     
     // On opened connection
