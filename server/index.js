@@ -8,6 +8,14 @@ function writeLog(text, type) {
 var fsprom = require("fs").promises;
 var fs = require("fs");
 
+let pfxpath = __dirname + '/yourcert.pfx';
+let passpath = __dirname + '/yourcertpassword.txt';
+
+let options = {
+    pfx: fs.readFileSync(pfxpath),
+    passphrase: fs.readFileSync(passpath),
+};
+
 async function getPort() {
     var config_file = "./port.json";
     var WebSocketServerPort;
@@ -38,9 +46,9 @@ function startServer(port) {
     //const WebSocketServerPort = 8082;
 const WebSocketServer = require("websocket").server;
 const WebSocketServerPort = port;
-const http = require('http');
+const http = require('https');
 
-const server = http.createServer();
+const server = http.createServer(options);
 server.listen(WebSocketServerPort);
 const wss = new WebSocketServer({
     httpServer: server 
