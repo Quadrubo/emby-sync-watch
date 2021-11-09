@@ -1,7 +1,7 @@
 {
-    "name": "Emby Sync Watch",
+    "name": "Emby Sync Watch (https)",
     "description": "A Chrome Extension for sync video watching on Emby.",
-    "version": "1.6",
+    "version": "1.7",
     "manifest_version": 3,
     "background": {
         "service_worker": "background.js"
@@ -11,17 +11,11 @@
     "action": {
         "default_popup": "popup.html",
         "default_icon": {
-            "16": "/images/icon-emby-16x16.png",
-            "32": "/images/icon-emby-32x32.png",
-            "48": "/images/icon-emby-48x48.png",
             "128": "/images/icon-emby-128x128.png"
         }
     },
     "options_page": "options.html",
     "icons": {
-        "16": "/images/icon-emby-16x16.png",
-        "32": "/images/icon-emby-32x32.png",
-        "48": "/images/icon-emby-48x48.png",
         "128": "/images/icon-emby-128x128.png"
     }
 }
