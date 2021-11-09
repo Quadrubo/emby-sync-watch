@@ -1,4 +1,8 @@
-由于原插件无法兼容HTTPS版EMBY的同步，故拉回来自己修改
+# HTTPS版本的使用方式
+1) 在server文件夹下添加自己的证书与密码your-domin.com.pfx, password.txt
+2) 修改index.js中10、11行为自己添加的证书
+3) 安装https版本的扩展
+4) 和正常版本一样启动服务器
 
 # Emby 同步观看
 用于在 Emby 上同步视频观看的 Chrome 扩展/NodeJS 服务器。
