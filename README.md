@@ -2,10 +2,6 @@
 A Chrome Extension / NodeJS Server for sync video watching on Emby.
 This is my first Chrome Extension so please be gentle on me. The code is far from good but it works :)
 
-# Need Logo Designer
-* If you want to help me design a Logo for the Extension please contact me on Discord @ Quadrubo#2536 or just answer anywhere I posted about this Extension.
-* Any help would be appreciated :)
-
 # Setup Client (Extension)
 1) Emby Sync Watch got accepted into the Chrome Webstore! Go to [Emby Sync Watch](https://chrome.google.com/webstore/detail/emby-sync-watch/cabhbnblooihogkhajehgmohhipnbach) to download it. Skip to step 8), if you wanna download it manually continue with step 2).
 2) Download the latest [Release](https://github.com/Quadrubo/emby-sync-watch/releases) of the Chrome Extension ("emby.sync.watch.EXTENSION. ... .zip") from the releases tab.
@@ -20,9 +16,9 @@ This is my first Chrome Extension so please be gentle on me. The code is far fro
 1) Download the latest [Release](https://github.com/Quadrubo/emby-sync-watch/releases) of the Server ("emby.sync.watch.SERVER. ... .zip") from the releases tab.
 2) Extract the Zip file to a Folder of your choice.
 3) Go to https://nodejs.org/en/download/ and install nodejs on your computer.
-4) Go to the Folder you extracted in step 2. Now you can either:
-    1) Click on "run-server.bat" to start the Server
-    2) Start the Server by opening a command prompt and typing "node .\index.js".  
+4) Go to the Folder you extracted in step 2.
+5) Run `npm install`.
+2) Start the server: `node .\index.js`.  
 6) If everything went correct the Server should now say "Server started" and the Port it's listening on.
 7) If you want to edit the port just open the port.json file the server created and change the port. Restart the server afterwards.
 7) If you want to use the Server over the Internet please forward TCP Port 8082 (or the port you set yourself) on your router.
